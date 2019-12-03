@@ -129,17 +129,10 @@ class SocketIoExtension extends Extension
         ]);
         $process->addTag('console.command');
 
-        $emit = new Definition(EmitCommand::class);
-        $emit->setArguments([
-            new Reference(Broadcast::class),
-        ]);
-        $emit->addTag('console.command');
-
         $container->addDefinitions([
             PhpServerCommand::class => $phpServer,
             ProcessCommand::class => $process,
             NodeJsServerCommand::class => $nodeJs,
-            EmitCommand::class => $emit,
         ]);
     }
 
