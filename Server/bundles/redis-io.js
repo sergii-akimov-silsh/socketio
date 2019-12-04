@@ -75,7 +75,7 @@ class RedisIO {
                                 data: data
                             }));
                     }
-                }else{
+                } else {
                     throw new Error(util.format('Socket %s "can not get access/speed limit", nsp: %s, room: %s, name: %s, data: %s', socket.id, nsp, socket.roomIO.name(), name, JSON.stringify(data)));
                 }
             });

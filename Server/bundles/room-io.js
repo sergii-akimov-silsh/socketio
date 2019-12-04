@@ -10,6 +10,12 @@ class RoomIO {
 
     join(room) {
         this.leave();
+
+        // Do not join for channel
+        if (Number(this.socket.handshake.user_id) !== Number(room.split('.')[1])) {
+            return;
+        }
+
         this.room[this.socket.id] = room;
 
         this.socket.join(room);

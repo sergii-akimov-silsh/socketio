@@ -1,5 +1,3 @@
-const logger = require('./logger');
-
 class AccessIO {
     constructor(socket) {
         this.socket = socket;
@@ -21,7 +19,7 @@ class AccessIO {
      */
     isDdos(name) {
         let data = (this.socket.accessIo || {})[name] || {};
-        
+
         if (this.getRequestLimit() <= 0) {
             return false;
         }

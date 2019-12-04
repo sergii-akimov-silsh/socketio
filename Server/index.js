@@ -5,9 +5,29 @@ const redis = require("redis");
 const subscriber = redis.createClient(JSON.parse(dotenv.parsed.SOCKET_IO_SUB));
 const publisher = redis.createClient(JSON.parse(dotenv.parsed.SOCKET_IO_PUB));
 const RedisIO = require('./bundles/redis-io');
+const axios = require('axios');
 
 (new RedisIO(dotenv.parsed.SOCKET_IO_NSP, io, subscriber, publisher, dotenv.parsed.SOCKET_IO_CHANNELS.split(',')))
     .listen();
+
+const authMiddleware = (function (socket, next) {
+    if (!socket.handshake.query || !socket.handshake.query.token) {
+        next(new Error('Token requied'));
+    }
+
+    axios.post(
+        process.env.SOCKET_IO_VALIDATE_TOKEN,
+        {},
+        {headers: {Authorization: "Bearer " + socket.handshake.query.token}}
+    )
+        .then(response => {
+            socket.handshake.user_id = response.data.user_id;
+            next();
+        })
+        .catch(error => next(error));
+});
+
+io.of('notifications').use(authMiddleware);
 
 server.listen(
     dotenv.parsed.SOCKET_IO_WS_SERVER.split(':')[1],
