@@ -1,6 +1,5 @@
 const RoomIO = require('./room-io');
 const AccessIO = require('./access-io');
-const logger = require('./logger');
 const util = require('util');
 
 class RedisIO {

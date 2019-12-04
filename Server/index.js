@@ -1,14 +1,15 @@
-const args = require('./bundles/args');
+const dotenv = require('dotenv').config();
 const server = require('./bundles/server');
 const io = require('socket.io')(server);
 const redis = require("redis");
-const subscriber = redis.createClient(JSON.parse(args.sub));
-const publisher = redis.createClient(JSON.parse(args.pub));
+const subscriber = redis.createClient(JSON.parse(dotenv.parsed.SOCKET_IO_SUB));
+const publisher = redis.createClient(JSON.parse(dotenv.parsed.SOCKET_IO_PUB));
 const RedisIO = require('./bundles/redis-io');
 
-(new RedisIO(args.nsp, io, subscriber, publisher, args.channels.split(',')))
+(new RedisIO(dotenv.parsed.SOCKET_IO_NSP, io, subscriber, publisher, dotenv.parsed.SOCKET_IO_CHANNELS.split(',')))
     .listen();
 
-
-server.listen(args.server.split(':')[1], args.server.split(':')[0]);
-
+server.listen(
+    dotenv.parsed.SOCKET_IO_WS_SERVER.split(':')[1],
+    dotenv.parsed.SOCKET_IO_WS_SERVER.split(':')[0]
+);

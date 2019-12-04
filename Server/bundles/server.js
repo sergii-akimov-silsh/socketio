@@ -1,11 +1,17 @@
-const args = require('./args');
+const dotenv = require('dotenv').config();
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
-const ssl = JSON.parse(args.ssl);
-const dotenv = require('dotenv').config();
 
-const server = args.ssl ? https.createServer({
+let ssl = null;
+
+try {
+    ssl = JSON.parse(dotenv.parsed.SOCKET_IO_SSL);
+} catch (e) {
+    ssl = null
+}
+
+const server = ssl ? https.createServer({
     key: fs.readFileSync(ssl.key),
     cert: fs.readFileSync(ssl.cert)
 }) : http.createServer();

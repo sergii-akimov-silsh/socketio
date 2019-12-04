@@ -1,5 +1,5 @@
 const winston = require('winston');
-const args = require('./args');
+const dotenv = require('dotenv').config();
 
 const logger = new (winston.Logger)({
     transports: [
@@ -7,7 +7,7 @@ const logger = new (winston.Logger)({
         // new (winston.transports.Console)({colorize: true, timestamp: true}),
     ],
     exceptionHandlers: [
-        new winston.transports.File({filename: args.runtime + '/exceptions.log'})
+        new winston.transports.File({filename: dotenv.parsed.SOCSOCKET_IO_LOG + '/exceptions.log'})
     ],
     exitOnError: false
 });
