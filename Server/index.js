@@ -22,7 +22,7 @@ const authMiddleware = (function (socket, next) {
         {headers: {Authorization: "Bearer " + socket.handshake.query.token}}
     )
         .then(response => {
-            console.log('Auth success', socket.handshake.query.token, response);
+            console.log('Auth success', socket.handshake.query.token, response.data);
             socket.handshake.user_id = response.data.user_id;
             next();
         })
