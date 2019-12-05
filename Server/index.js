@@ -28,14 +28,6 @@ const authMiddleware = (function (socket, next) {
 });
 
 io.of('notifications').use(authMiddleware);
-//
-// io.of('notifications').use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header("Access-Control-Allow-Headers", "Content-Type");
-//     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-//     next();
-// });
 
 server.listen(
     dotenv.parsed.SOCKET_IO_WS_SERVER.split(':')[1],
